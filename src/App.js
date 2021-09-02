@@ -73,6 +73,8 @@ function App() {
         updateStorage(newTodos);
     };
 
+    console.log('gfgfd');
+
     return (
         <div className="app">
             <div className="container">
