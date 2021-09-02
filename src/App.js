@@ -6,12 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Todo({ todo, index, completedItem, removeItem }) {
     return (
-        <div className="todo">
-            <span>{todo.text}</span>
-            <div>
-                <Button variant="outline-success" onClick={() => completedItem(index)}>✓</Button>{' '}
-                <Button variant="outline-danger" onClick={() => removeItem(index)}>✕</Button>
-            </div>
+        <div className="todo" onClick={() => completedItem(index)}>
+            <Button variant="outline-danger" className="btn-custom-style float-end" onClick={() => removeItem(index)}>✕</Button>
+            <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{todo.text}</span>
         </div>
     );
     }
@@ -30,7 +27,7 @@ function FormTodo({ addTodo }) {
         <Form onSubmit={handleSubmit}> 
         <Form.Group>
             <Form.Control type="text" className="input" value={value} onChange={e => setValue(e.target.value)} placeholder="Add new item" />
-            <Button variant="primary" type="submit">Add item</Button>
+            <Button variant="primary" type="submit" >Add item</Button>
         </Form.Group>
     </Form>
     );
@@ -60,8 +57,13 @@ function App() {
 
     const completedItem = index => {
         const newTodos = [...todos];
-        newTodos[index].isDone = true;
+        if (!newTodos[index].isDone) {
+            newTodos[index].isDone = true;
+        } else {
+            newTodos[index].isDone = false;
+        }
         setTodos(newTodos);
+        updateStorage(newTodos);
     };
 
     const removeItem = index => {
